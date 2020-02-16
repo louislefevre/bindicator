@@ -1,4 +1,4 @@
-# bindicator
+# Bindicator
 Arduino project that uses LEDs to tell you which colour bins to put out.
 
 Based on [The BinDayCator](https://www.kickstarter.com/projects/tarbard/the-bindaycator) by Darren Tarbard.
@@ -6,6 +6,7 @@ Based on [The BinDayCator](https://www.kickstarter.com/projects/tarbard/the-bind
 ## Resources
 [Bin Collection Dates](https://mybexley.bexley.gov.uk/service/Missed_bin_collections)  
 [Arduino and DS3231 Real Time Clock Tutorial](https://www.youtube.com/watch?v=E6wkvTG2Ofs)  
+[Reducing Arduino Power Consumption](https://learn.sparkfun.com/tutorials/reducing-arduino-power-consumption)  
 
 
 ## Required Items
