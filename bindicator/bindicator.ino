@@ -7,17 +7,15 @@ const int blueLED = 8;
 const int whiteLED = 12;
 const int delayTime = 60000;
 
-const char SUNDAY = "Sunday";
-const char MONDAY = "Monday";
-const char TUESDAY = "Tuesday";
-const char WEDNESDAY = "Wednesday";
-const char THURSDAY = "Thursday";
-const char FRIDAY = "Friday";
-const char SATURDAY = "Saturday";
-const char daysOfTheWeek[7][12] = {SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY};
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-bool green, blue = true;
-bool yellow, red, white = false;
+bool green = true; // Green bin (non-recyclable)
+bool blue = true; // Blue bin (paper)
+bool red = true; // Brown caddy (food waste)
+bool yellow = false; // Brown bin (garden waste)
+bool white = false; // White bin (plastics)
+
+boolean switchBools = false;
 
 RTC_DS3231 rtc;
 
@@ -31,25 +29,24 @@ void setup()
 
 void loop()
 {
-  boolean switchBools = false;
   DateTime now = rtc.now();
   
   currentTime(now);
-  
-  if(daysOfTheWeek[now.dayOfTheWeek()] == TUESDAY)
+
+  if(now.dayOfTheWeek() == 1)
   {
     switchBools = true;
-    if(green && blue)
-    {
+
+    if(green)
       digitalWrite(greenLED, HIGH);
+    if(blue)
       digitalWrite(blueLED, HIGH);
-    }
-    else if(yellow && red && white)
-    {
+    if(yellow)
       digitalWrite(yellowLED, HIGH);
+    if(red)
       digitalWrite(redLED, HIGH);
+    if(white)
       digitalWrite(whiteLED, HIGH);
-    }
   }
   else
   {
@@ -91,9 +88,8 @@ void rtcDiagnostics()
 
   if(rtc.lostPower())
   {
-    Serial.println("RTC lost power, lets set the time!");
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); // Sets the RTC to the date & time this sketch was compiled
-    rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0)); // This line sets the RTC with an explicit date & time, for example to set January 21, 2014 at 3am
+    Serial.println("RTC lost power, setting the time...");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
 }
 
